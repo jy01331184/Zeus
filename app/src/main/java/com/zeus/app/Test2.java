@@ -5,13 +5,13 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 
 /**
- * Created by jingchaoqinjc on 17/3/20.
+ * Created by magic.yang on 17/3/20.
  */
 
 public class Test2 {
 
     public Test2() {
-        System.out.println("patched constructor");
+        System.out.println("patched111 constructor");
     }
 
 

@@ -1,4 +1,4 @@
-package com.zeus;
+package com.zeus.ex;
 
 
 import android.os.Build;
@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * Created by jingchaoqinjc on 17/3/20.
+ * Created by magic.yang on 17/3/20.
  */
 
 public class UnsafeProxy {

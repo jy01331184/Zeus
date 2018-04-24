@@ -1,12 +1,14 @@
-package com.zeus;
+package com.zeus.core;
 
+import com.zeus.ex.SizeUtils;
+import com.zeus.ex.UnsafeProxy;
 import com.zeus.ex.MethodSizeCase;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * Created by jingchaoqinjc on 17/5/16.
+ * Created by magic.yang on 17/5/16.
  */
 
 public class MethodSize5_1 implements IMethodSize {
@@ -40,7 +42,7 @@ public class MethodSize5_1 implements IMethodSize {
             long method4Addr = UnsafeProxy.getObjectAddress(object4);
 
 
-            methodSize = AnthyphairesisUtils.size(method1Addr, method2Addr,method3Addr,method4Addr);
+            methodSize = SizeUtils.size(method1Addr, method2Addr,method3Addr,method4Addr);
 
             //init methodIndexOffset declaringClassOffset
             Class artMethodClass = object1.getClass();

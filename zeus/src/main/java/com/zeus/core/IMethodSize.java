@@ -1,7 +1,7 @@
-package com.zeus;
+package com.zeus.core;
 
 /**
- * Created by jingchaoqinjc on 17/5/16.
+ * Created by magic.yang on 17/5/16.
  */
 
 public interface IMethodSize {

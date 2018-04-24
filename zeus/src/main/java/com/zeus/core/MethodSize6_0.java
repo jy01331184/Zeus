@@ -1,12 +1,14 @@
-package com.zeus;
+package com.zeus.core;
 
+import com.zeus.ex.SizeUtils;
+import com.zeus.ex.UnsafeProxy;
 import com.zeus.ex.MethodSizeCase;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * Created by jingchaoqinjc on 17/5/16.
+ * Created by magic.yang on 17/5/16.
  */
 
 public class MethodSize6_0 implements IMethodSize {
@@ -34,7 +36,7 @@ public class MethodSize6_0 implements IMethodSize {
             long method3Addr = ((Long) artMethodField.get(method3)).longValue();
             long method4Addr = ((Long) artMethodField.get(method4)).longValue();
 
-            methodSize = AnthyphairesisUtils.size(method1Addr, method2Addr,method3Addr,method4Addr);
+            methodSize = SizeUtils.size(method1Addr, method2Addr,method3Addr,method4Addr);
 
             int constructNumber = MethodSizeCase.class.getDeclaredConstructors().length;
 

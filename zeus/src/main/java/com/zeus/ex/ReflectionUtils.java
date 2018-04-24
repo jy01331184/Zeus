@@ -1,4 +1,4 @@
-package com.zeus;
+package com.zeus.ex;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
- * Created by jingchaoqinjc on 17/5/20.
+ * Created by magic.yang on 17/5/20.
  */
 
 public class ReflectionUtils {

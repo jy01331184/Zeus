@@ -9,7 +9,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'com.tmall.wireless.app'
+        applicationId 'com.zeus.app'
         minSdkVersion 14
         targetSdkVersion 23
 

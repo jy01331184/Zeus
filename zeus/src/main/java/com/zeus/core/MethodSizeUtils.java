@@ -1,9 +1,9 @@
-package com.zeus;
+package com.zeus.core;
 
 import android.os.Build;
 
 /**
- * Created by jingchaoqinjc on 17/5/16.
+ * Created by magic.yang on 17/5/16.
  */
 
 public class MethodSizeUtils {

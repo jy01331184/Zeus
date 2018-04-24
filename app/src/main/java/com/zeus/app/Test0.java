@@ -6,50 +6,56 @@ import android.app.Activity;
  * Created by magic.yang on 17/3/20.
  */
 
-public class Test1 extends Test0{
+public class Test0 {
 
-    public Test1() {
+    public Test0() {
     }
 
+//    public void aaa(){};
+//
+//    public void zzz(){};
+
+
+//
     protected String protectedTest(Activity activity) {
-        return "0protectedTest";
+        return "su protectedTest";
     }
 
     private String privateTest(Activity activity) {
-        return "privateTest";
+        return "su privateTest";
     }
-
+//
     public static String publicStaticTest() {
-        return "publicStaticTest";
+        return "su publicStaticTest";
     }
-
+////
     protected static String protectedStaticTest() {
-        return "protectedStaticTest";
+        return "su protectedStaticTest";
     }
 
     private static String privateStaticTest() {
-        return "privateStaticTest";
+        return "su privateStaticTest";
     }
-
-    public final String finalTest(Activity activity) {
-        return "finalTest";
-    }
-
+//
+//    public final String finalTest(Activity activity) {
+//        return "su finalTest";
+//    }
+//
     public String callPrivate(Activity activity) {
         return privateTest(activity);
     }
-
+//
     public static String callPrivateStatic() {
         return privateStaticTest();
     }
-
-
+//
+//
     String innner() {
-        return "you hei wo ke";
+        return "su you hei wo ke";
     }
-
-
+//
+//
     public String publicTest() {
-        return "publicTest";
+        return "su publicTest";
     }
 }

@@ -2,19 +2,26 @@ package com.zeus;
 
 import android.os.Build;
 
+import com.zeus.core.IReflectionReplace;
+import com.zeus.core.ReflectionReplace5_0;
+import com.zeus.core.ReflectionReplace5_1;
+import com.zeus.core.ReflectionReplace6_0;
+import com.zeus.core.ReflectionReplace8_0;
+import com.zeus.core.ReflectionReplaceDalvik4_0;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
- * Created by jingchaoqinjc on 17/5/15.
+ * Created by magic.yang on 17/5/15.
  */
 
-public class ReflectionReplaceProxy {
+public class ZeusProxy {
 
     private IReflectionReplace proxy;
 
-    private ReflectionReplaceProxy() {
+    private ZeusProxy() {
         init();
     }
 
@@ -38,7 +45,7 @@ public class ReflectionReplaceProxy {
         }
     }
 
-    public static ReflectionReplaceProxy instance() {
+    public static ZeusProxy instance() {
         return Holder.instance;
     }
 
@@ -57,7 +64,7 @@ public class ReflectionReplaceProxy {
     }
 
     private static class Holder {
-        static ReflectionReplaceProxy instance = new ReflectionReplaceProxy();
+        static ZeusProxy instance = new ZeusProxy();
     }
 
     private void checkMethod(Method src, Method dest) {

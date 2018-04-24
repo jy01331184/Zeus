@@ -44,4 +44,7 @@
         android:text="recover" android:id="@+id/recover"
     />
 
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="reflect" android:id="@+id/reflect"
+    />
 </LinearLayout>

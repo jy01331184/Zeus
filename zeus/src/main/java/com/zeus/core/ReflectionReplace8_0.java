@@ -1,4 +1,7 @@
-package com.zeus;
+package com.zeus.core;
+
+import com.zeus.ex.ReflectionUtils;
+import com.zeus.ex.UnsafeProxy;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -11,10 +14,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by jingchaoqinjc on 17/5/15.
+ * Created by magic.yang on 17/5/15.
  */
 
-public class ReflectionReplace6_0 implements IReflectionReplace {
+public class ReflectionReplace8_0 implements IReflectionReplace {
 
     static Field artMethodField;
 
@@ -24,7 +27,7 @@ public class ReflectionReplace6_0 implements IReflectionReplace {
 
     static {
         try {
-            Class absMethodClass = Class.forName("java.lang.reflect.AbstractMethod");
+            Class absMethodClass = Class.forName("java.lang.reflect.Executable");
             artMethodField = absMethodClass.getDeclaredField("artMethod");
             artMethodField.setAccessible(true);
         } catch (Exception e) {
@@ -53,7 +56,7 @@ public class ReflectionReplace6_0 implements IReflectionReplace {
             cache = new ArrayList<>();
             CACHE.put(key, cache);
         }
-        replaceReal(cache,artMethodSrc, artMethodDest);
+        replaceReal(cache, artMethodSrc, artMethodDest);
     }
 
     @Override
@@ -73,7 +76,7 @@ public class ReflectionReplace6_0 implements IReflectionReplace {
             CACHE.put(key, cache);
         }
 
-        replaceReal(cache,artMethodSrc, artMethodDest);
+        replaceReal(cache, artMethodSrc, artMethodDest);
     }
 
     @Override
@@ -96,10 +99,11 @@ public class ReflectionReplace6_0 implements IReflectionReplace {
                             UnsafeProxy.putIntVolatile(src + i * 4, value);
                         }
                     }
-                    System.out.println("recover:"+key);
+                    System.out.println("recover:" + key);
                 } else {
-                    System.err.println("no recover for key:"+key);
+                    System.err.println("no recover for key:" + key);
                 }
+
             }
         }
     }
@@ -113,8 +117,7 @@ public class ReflectionReplace6_0 implements IReflectionReplace {
         cache.add(src);
         // index 0 is declaring_class, declaring_class need not replace.
         for (int i = 0, size = methodSize / 4; i < size; i++) {
-            if (i != methodIndexOffsetIndex ) {
-
+            if (i != methodIndexOffsetIndex) {
                 if (i == declaringClassOffsetIndex && superClassOffset != Constants.INVALID_SIZE) {
                     int destClsAddr = UnsafeProxy.getIntVolatile(dest + i * 4);
                     UnsafeProxy.putIntVolatile(destClsAddr + superClassOffset * 4, 0);  //update super_class_ in class.h

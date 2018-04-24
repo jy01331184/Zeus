@@ -1,7 +1,7 @@
 package com.zeus.app;
 
 /**
- * Created by jingchaoqinjc on 17/4/4.
+ * Created by magic.yang on 17/4/4.
  */
 
 public interface ITest {

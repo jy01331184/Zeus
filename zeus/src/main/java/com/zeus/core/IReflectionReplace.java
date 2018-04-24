@@ -1,10 +1,10 @@
-package com.zeus;
+package com.zeus.core;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 /**
- * Created by jingchaoqinjc on 17/5/15.
+ * Created by magic.yang on 17/5/15.
  */
 
 public interface IReflectionReplace {
