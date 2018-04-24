@@ -1,6 +1,5 @@
 package com.zeus;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;

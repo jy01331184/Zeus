@@ -84,7 +84,9 @@ public class UnsafeProxy {
     }
 
     public static void ensureClassInitialized(Class clazz) throws Exception {
-        Class.forName(clazz.getName(), true, UnsafeProxy.class.getClassLoader());
+        try {
+            Class.forName(clazz.getName(), true, clazz.getClassLoader());
+        }catch (Throwable e){}
     }
 
 }

@@ -1,5 +1,7 @@
 package com.zeus;
 
+import com.zeus.ex.MethodSizeCase;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,18 +14,22 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by jingchaoqinjc on 17/5/15.
+ * Created by magic.yang on 17/5/15.
+ * cover 4.x
  */
 
 public class ReflectionReplaceDalvik4_0 implements IReflectionReplace {
 
     private final static int DIRECT_METHOD_OFFSET = 25;
     private final static int VIRTUAL_METHOD_OFFSET = 27;
-//    private final static int METHOD_SIZE_BYTE = 56;
+    private final static int METHOD_SIZE_BYTE = 56;
 
     static Field methodSlotField;
     static Field constructSlotField;
-    static int methodSize = 56;
+    static int methodSize = METHOD_SIZE_BYTE;
+    static int directMethodOffset = DIRECT_METHOD_OFFSET;
+    static int virtualMethodOffset = VIRTUAL_METHOD_OFFSET;
+    private static int superClassOffset = Constants.INVALID_SIZE;
     private static int declaringClassOffset = Constants.INVALID_SIZE;
 
     static Map<Class, Set<Object>> PATCHS = new HashMap<>();
@@ -55,15 +61,29 @@ public class ReflectionReplaceDalvik4_0 implements IReflectionReplace {
                     elementCount++;
                 }
             }
+
             methodSize = 4 * elementCount;
-            System.out.println("get dvm methodSize:"+methodSize);
-            for (int i = 0, size = methodSize / 4; i < size; i++) {
-                int value = UnsafeProxy.getIntVolatile(directMethodAddr + i * 4);
-                if (value == declaringClassAddr) {
-                    declaringClassOffset = i * 4;
-                    break;
+
+//            long objectClassAddr = UnsafeProxy.getObjectAddress(Object.class);
+//
+//            for (int i = 0; i < 20; i++) {
+//                int val = UnsafeProxy.getIntVolatile(declaringClassAddr + i * 4);
+//                if (val == objectClassAddr) {
+//                    superClassOffset = i * 4;
+//                    break;
+//                }
+//            }
+
+            for (int i = DIRECT_METHOD_OFFSET-10; i <= VIRTUAL_METHOD_OFFSET+10; i++) {
+                int val = UnsafeProxy.getIntVolatile(declaringClassAddr + i * 4);
+                if(val == 5){
+                    directMethodOffset = i+1;
+                } else if(val == 2){
+                    virtualMethodOffset = i+1;
                 }
             }
+
+            System.out.println("ReflectionReplaceDalvik4_0:init methodSize:"+methodSize+" declaringClassOffset:" + declaringClassOffset + "," + "superClassOffset:" + superClassOffset+",directMethodOffset:"+directMethodOffset+",virtualMethodOffset:"+virtualMethodOffset);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,19 +103,15 @@ public class ReflectionReplaceDalvik4_0 implements IReflectionReplace {
 
         Class classSrc = src.getDeclaringClass();
         Class classDest = dest.getDeclaringClass();
-        long virtualMethodSrcAddr = 0;
-        long virtualMethodDestAddr = 0;
-
-
-        System.out.println(src);
-        System.out.println(dest);
+        long virtualMethodSrcAddr;
+        long virtualMethodDestAddr;
 
         if (isDirect(src)) {
-            virtualMethodSrcAddr = UnsafeProxy.getIntVolatile(classSrc, DIRECT_METHOD_OFFSET * 4);
-            virtualMethodDestAddr = UnsafeProxy.getIntVolatile(classDest, DIRECT_METHOD_OFFSET * 4);
+            virtualMethodSrcAddr = UnsafeProxy.getIntVolatile(classSrc, directMethodOffset * 4);
+            virtualMethodDestAddr = UnsafeProxy.getIntVolatile(classDest, directMethodOffset * 4);
         } else {
-            virtualMethodSrcAddr = UnsafeProxy.getIntVolatile(classSrc, VIRTUAL_METHOD_OFFSET * 4);
-            virtualMethodDestAddr = UnsafeProxy.getIntVolatile(classDest, VIRTUAL_METHOD_OFFSET * 4);
+            virtualMethodSrcAddr = UnsafeProxy.getIntVolatile(classSrc, virtualMethodOffset * 4);
+            virtualMethodDestAddr = UnsafeProxy.getIntVolatile(classDest, virtualMethodOffset * 4);
         }
 
         //slot is methodIndex in action
@@ -144,8 +160,8 @@ public class ReflectionReplaceDalvik4_0 implements IReflectionReplace {
 
         Class classSrc = src.getDeclaringClass();
         Class classDest = dest.getDeclaringClass();
-        long virtualMethodSrcAddr = UnsafeProxy.getIntVolatile(classSrc, DIRECT_METHOD_OFFSET * 4);
-        long virtualMethodDestAddr = UnsafeProxy.getIntVolatile(classDest, DIRECT_METHOD_OFFSET * 4);
+        long virtualMethodSrcAddr = UnsafeProxy.getIntVolatile(classSrc, directMethodOffset * 4);
+        long virtualMethodDestAddr = UnsafeProxy.getIntVolatile(classDest, directMethodOffset * 4);
 
         //slot is methodIndex in action
         /*
@@ -192,28 +208,26 @@ public class ReflectionReplaceDalvik4_0 implements IReflectionReplace {
 
                     int declaringClassOffsetIndex = declaringClassOffset / 4;
                     for (int i = 0, size = methodSize / 4; i < size; i++) {
-                        if (i != declaringClassOffsetIndex) {
-                            int value = cache.remove(0).intValue();
-                            UnsafeProxy.putIntVolatile(src + i * 4, value);
-                        }
+//                        if (i != declaringClassOffsetIndex) {
+                        int value = cache.remove(0).intValue();
+                        UnsafeProxy.putIntVolatile(src + i * 4, value);
+//                        }
                     }
                 }
-                System.out.println("recover:"+key);
+                System.out.println("recover:" + key);
             }
         }
     }
 
     protected void replaceReal(List<Long> cache, long src, long dest) throws Exception {
         //why 1? index 0 is declaring_class, declaring_class need not replace.
-        int declaringClassOffsetIndex = declaringClassOffset / 4;
+
         cache.add(src);
         for (int i = 0, size = methodSize / 4; i < size; i++) {
-            if (i != declaringClassOffsetIndex) {
-                int value = UnsafeProxy.getIntVolatile(dest + i * 4);
-                int origin = UnsafeProxy.getIntVolatile(src + i * 4);
-                cache.add((long) origin);
-                UnsafeProxy.putIntVolatile(src + i * 4, value);
-            }
+            int value = UnsafeProxy.getIntVolatile(dest + i * 4);
+            int origin = UnsafeProxy.getIntVolatile(src + i * 4);
+            cache.add((long) origin);
+            UnsafeProxy.putIntVolatile(src + i * 4, value);
         }
     }
 

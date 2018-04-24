@@ -1,5 +1,7 @@
 package com.zeus;
 
+import com.zeus.ex.MethodSizeCase;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -12,6 +14,7 @@ public class MethodSize8_0 implements IMethodSize {
     private static int methodSize = Constants.INVALID_SIZE;
     private static int methodIndexOffset = Constants.INVALID_SIZE;
     private static int declaringClassOffset = Constants.INVALID_SIZE;
+    private static int superClassOffset = Constants.INVALID_SIZE;
 
     static {
         try {
@@ -30,20 +33,7 @@ public class MethodSize8_0 implements IMethodSize {
             long method3Addr = ((Long) artMethodField.get(method3)).longValue();
             long method4Addr = ((Long) artMethodField.get(method4)).longValue();
 
-            int size1 = (int) (method2Addr - method1Addr);
-            if (size1 < 0) {
-                size1 = -size1;
-            }
-            int size2 = (int) (method3Addr - method2Addr);
-            if (size2 < 0) {
-                size2 = -size2;
-            }
-
-            methodSize = AnthyphairesisUtils.anthyphairesis(size1, size2);
-            methodSize = (int) (method2Addr - method1Addr);
-            if (methodSize < 0) {
-                methodSize = -methodSize;
-            }
+            methodSize = AnthyphairesisUtils.size(method1Addr, method2Addr, method3Addr, method4Addr);
 
             int constructNumber = MethodSizeCase.class.getDeclaredConstructors().length;
 
@@ -71,6 +61,21 @@ public class MethodSize8_0 implements IMethodSize {
                 }
             }
 
+            long classAddr = UnsafeProxy.getObjectAddress(MethodSizeCase.class);
+
+            long objectClassAddr = UnsafeProxy.getObjectAddress(Object.class);
+
+            for (int i = 0; i < 20; i++) {
+                int val = UnsafeProxy.getIntVolatile(classAddr+i*4);
+                if(val == objectClassAddr){
+                    superClassOffset = i * 4;
+                    break;
+                }
+            }
+
+            System.out.println("MethodSize8_0:init methodSize:"+methodSize+" declaringClassOffset:"+declaringClassOffset+","+"methodIndexOffset:"+methodIndexOffset+","+"superClassOffset:"+superClassOffset);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,6 +94,11 @@ public class MethodSize8_0 implements IMethodSize {
     @Override
     public int declaringClassOffset() throws Exception {
         return declaringClassOffset;
+    }
+
+    @Override
+    public int superClassOffset() throws Exception {
+        return superClassOffset;
     }
 
 }

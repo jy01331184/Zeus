@@ -3,7 +3,6 @@ package com.zeus;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,10 +35,9 @@ public class ReflectionReplace8_0 implements IReflectionReplace {
     @Override
     public void replace(Method src, Method dest) throws Exception {
         //static 需要提前初始化
-        if (Modifier.isStatic(src.getModifiers())) {
-            UnsafeProxy.ensureClassInitialized(src.getDeclaringClass());
-            UnsafeProxy.ensureClassInitialized(dest.getDeclaringClass());
-        }
+        UnsafeProxy.ensureClassInitialized(src.getDeclaringClass());
+        UnsafeProxy.ensureClassInitialized(dest.getDeclaringClass());
+
         long artMethodSrc = ((Long) artMethodField.get(src)).longValue();
         long artMethodDest = ((Long) artMethodField.get(dest)).longValue();
 
@@ -55,7 +53,7 @@ public class ReflectionReplace8_0 implements IReflectionReplace {
             cache = new ArrayList<>();
             CACHE.put(key, cache);
         }
-        replaceReal(cache,artMethodSrc, artMethodDest);
+        replaceReal(cache, artMethodSrc, artMethodDest);
     }
 
     @Override
@@ -75,7 +73,7 @@ public class ReflectionReplace8_0 implements IReflectionReplace {
             CACHE.put(key, cache);
         }
 
-        replaceReal(cache,artMethodSrc, artMethodDest);
+        replaceReal(cache, artMethodSrc, artMethodDest);
     }
 
     @Override
@@ -93,13 +91,16 @@ public class ReflectionReplace8_0 implements IReflectionReplace {
                     int declaringClassOffsetIndex = MethodSizeUtils.declaringClassOffset() / 4;
                     // index 0 is declaring_class, declaring_class need not replace.
                     for (int i = 0, size = methodSize / 4; i < size; i++) {
-                        if (i != methodIndexOffsetIndex && i != declaringClassOffsetIndex) {
+                        if (i != methodIndexOffsetIndex) {
                             int value = cache.remove(0).intValue();
                             UnsafeProxy.putIntVolatile(src + i * 4, value);
                         }
                     }
+                    System.out.println("recover:" + key);
+                } else {
+                    System.err.println("no recover for key:" + key);
                 }
-                System.out.println("recover:"+key);
+
             }
         }
     }
@@ -108,10 +109,17 @@ public class ReflectionReplace8_0 implements IReflectionReplace {
         int methodSize = MethodSizeUtils.methodSize();
         int methodIndexOffsetIndex = MethodSizeUtils.methodIndexOffset() / 4;
         int declaringClassOffsetIndex = MethodSizeUtils.declaringClassOffset() / 4;
+        int superClassOffset = MethodSizeUtils.superClassOffset() / 4;
+
         cache.add(src);
         // index 0 is declaring_class, declaring_class need not replace.
         for (int i = 0, size = methodSize / 4; i < size; i++) {
-            if (i != methodIndexOffsetIndex && i != declaringClassOffsetIndex) {
+            if (i != methodIndexOffsetIndex) {
+                if (i == declaringClassOffsetIndex && superClassOffset != Constants.INVALID_SIZE) {
+                    int destClsAddr = UnsafeProxy.getIntVolatile(dest + i * 4);
+                    UnsafeProxy.putIntVolatile(destClsAddr + superClassOffset * 4, 0);  //update super_class_ in class.h
+                }
+
                 int value = UnsafeProxy.getIntVolatile(dest + i * 4);
                 int origin = UnsafeProxy.getIntVolatile(src + i * 4);
                 cache.add((long) origin);

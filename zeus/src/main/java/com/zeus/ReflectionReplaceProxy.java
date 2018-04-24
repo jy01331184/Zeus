@@ -12,7 +12,7 @@ import java.lang.reflect.Modifier;
 
 public class ReflectionReplaceProxy {
 
-    private IReflectionReplace realReplace;
+    private IReflectionReplace proxy;
 
     private ReflectionReplaceProxy() {
         init();
@@ -23,18 +23,18 @@ public class ReflectionReplaceProxy {
             final String vmVersion = System.getProperty("java.vm.version");
             boolean isArt = vmVersion != null && vmVersion.startsWith("2");
             if(!isArt){
-                realReplace = new ReflectionReplaceDalvik4_0();
+                proxy = new ReflectionReplaceDalvik4_0();
             } else {
-                realReplace = new ReflectionReplaceArt4_0();
+                proxy = new ReflectionReplace5_0();
             }
         } else if (Build.VERSION.SDK_INT == 21) {
-            realReplace = new ReflectionReplace5_0();
+            proxy = new ReflectionReplace5_0();
         } else if (Build.VERSION.SDK_INT == 22) {
-            realReplace = new ReflectionReplace5_1();
+            proxy = new ReflectionReplace5_1();
         } else if (Build.VERSION.SDK_INT >= 23 && Build.VERSION.SDK_INT<26) {
-            realReplace = new ReflectionReplace6_0();
+            proxy = new ReflectionReplace6_0();
         } else {
-            realReplace = new ReflectionReplace8_0();
+            proxy = new ReflectionReplace8_0();
         }
     }
 
@@ -44,16 +44,16 @@ public class ReflectionReplaceProxy {
 
     public void replace(Method src, Method dest) throws Exception {
         checkMethod(src, dest);
-        realReplace.replace(src, dest);
+        proxy.replace(src, dest);
     }
 
     public void replace(Constructor src, Constructor dest) throws Exception {
         checkConstructor(src, dest);
-        realReplace.replace(src, dest);
+        proxy.replace(src, dest);
     }
 
     public void recover(Class cls) throws Exception {
-        realReplace.recover(cls);
+        proxy.recover(cls);
     }
 
     private static class Holder {

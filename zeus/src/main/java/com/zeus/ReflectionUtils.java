@@ -93,15 +93,6 @@ public class ReflectionUtils {
     }
 
     public static String getKey(Object object){
-        if(object instanceof Method){
-            Method method = (Method) object;
-            return method.getDeclaringClass().getName() + ":" + method.toString();
-        } else if(object instanceof Constructor){
-            Constructor constructor = (Constructor) object;
-            return constructor.getDeclaringClass().getName() + ":" + constructor.toString();
-        }
-
-        return null;
+        return "zeus:"+System.identityHashCode(object);
     }
-
 }

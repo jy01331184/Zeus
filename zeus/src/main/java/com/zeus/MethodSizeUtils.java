@@ -12,17 +12,28 @@ public class MethodSizeUtils {
     private static IMethodSize methodSize = null;
     private static int methodIndexOffset = Constants.INVALID_SIZE;
     private static int declaringClassOffset = Constants.INVALID_SIZE;
+    private static int superClassOffset = Constants.INVALID_SIZE;
 
     static {
         if (Build.VERSION.SDK_INT >= 14 && Build.VERSION.SDK_INT < 21) {
         } else if (Build.VERSION.SDK_INT == 21) {
         } else if (Build.VERSION.SDK_INT == 22) {
             methodSize = new MethodSize5_1();
-        } else if (Build.VERSION.SDK_INT >= 23 && Build.VERSION.SDK_INT<26) {
+        } else if (Build.VERSION.SDK_INT >= 23 && Build.VERSION.SDK_INT < 26) {
             methodSize = new MethodSize6_0();
         } else {
             methodSize = new MethodSize8_0();
         }
+    }
+
+    public static int superClassOffset() throws Exception {
+        if (superClassOffset == Constants.INVALID_SIZE) {
+            superClassOffset = methodSize.superClassOffset();
+        }
+        if (superClassOffset == Constants.INVALID_SIZE) {
+            throw new RuntimeException();
+        }
+        return superClassOffset;
     }
 
     public static int methodSize() throws Exception {

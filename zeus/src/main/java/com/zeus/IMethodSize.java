@@ -12,4 +12,5 @@ public interface IMethodSize {
 
     int declaringClassOffset() throws Exception;
 
+    int superClassOffset() throws Exception;
 }

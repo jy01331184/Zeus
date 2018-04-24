@@ -1,4 +1,4 @@
-package com.zeus;
+package com.zeus.ex;
 
 /**
  * Created by jingchaoqinjc on 17/5/16.
@@ -14,10 +14,6 @@ public final class MethodSizeCase {
 
     }
 
-    MethodSizeCase(int i) {
-
-    }
-
     private void method1() {
     }
 
@@ -30,4 +26,7 @@ public final class MethodSizeCase {
     private void method4() {
     }
 
+    public void zVirtualMethod1(){}
+
+    public void zVirtualMethod2(){}
 }
