@@ -1,1 +1,1 @@
-include ':app', ':zeus'
+include ':app', ':zeus', ':zeusplugin'

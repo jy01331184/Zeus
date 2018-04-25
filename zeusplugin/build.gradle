@@ -1,0 +1,43 @@
+import org.gradle.api.internal.artifacts.mvnsettings.DefaultLocalMavenRepositoryLocator
+import org.gradle.api.internal.artifacts.mvnsettings.DefaultMavenFileLocations
+import org.gradle.api.internal.artifacts.mvnsettings.DefaultMavenSettingsProvider
+import org.gradle.api.internal.artifacts.mvnsettings.LocalMavenRepositoryLocator
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile 'com.google.auto.service:auto-service:1.0-rc2'
+    compile 'com.android.tools.build:gradle:1.5.0'
+    compile 'org.javassist:javassist:3.20.0-GA'
+    compile 'com.zeussdk:zeus:1.0.0@jar'
+}
+repositories {
+    mavenCentral()
+}
+
+group='com.zeus'
+version='1.0.0'
+def mavenLocalRepo = ''
+
+afterEvaluate{
+    DefaultMavenFileLocations locations = new DefaultMavenFileLocations()
+    DefaultMavenSettingsProvider provider = new DefaultMavenSettingsProvider(locations)
+    LocalMavenRepositoryLocator locator = new DefaultLocalMavenRepositoryLocator(provider)
+
+
+
+    mavenLocalRepo = locator.localMavenRepository.absolutePath
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository (url: uri(mavenLocalRepo))
+//                repository (url: 'http://localhost:8081/repository/maven-releases/'){
+//                    authentication(userName: "admin", password: "123")
+//                }
+            }
+        }
+    }
+}

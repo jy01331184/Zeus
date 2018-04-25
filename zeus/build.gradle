@@ -1,4 +1,13 @@
+import org.gradle.api.internal.artifacts.DefaultPublishArtifactSet
+import org.gradle.api.internal.artifacts.mvnsettings.DefaultLocalMavenRepositoryLocator
+import org.gradle.api.internal.artifacts.mvnsettings.DefaultMavenFileLocations
+import org.gradle.api.internal.artifacts.mvnsettings.DefaultMavenSettingsProvider
+import org.gradle.api.internal.artifacts.mvnsettings.LocalMavenRepositoryLocator
+import org.gradle.api.internal.artifacts.publish.DefaultPublishArtifact
+
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
 
 android {
     compileSdkVersion 23
@@ -30,7 +39,44 @@ android {
 
 }
 
+group='com.zeussdk'
+version='1.0.0'
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
 
+def mavenLocalRepo = ''
+afterEvaluate {
+    DefaultMavenFileLocations locations = new DefaultMavenFileLocations()
+    DefaultMavenSettingsProvider provider = new DefaultMavenSettingsProvider(locations)
+    LocalMavenRepositoryLocator locator = new DefaultLocalMavenRepositoryLocator(provider)
+
+    mavenLocalRepo = locator.localMavenRepository.absolutePath
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                repository (url: uri(mavenLocalRepo))
+//                repository (url: 'http://localhost:8081/repository/maven-releases/'){
+//                    authentication(userName: "admin", password: "123")
+//                }
+            }
+        }
+    }
+
+    Task uploadArchivesTask = tasks.findByName("uploadArchives")
+    uploadArchivesTask.doFirst {
+        Date date = new Date()
+
+        DefaultPublishArtifactSet ass = it.configuration.getArtifacts()
+
+        Task transformDex = tasks.findByName('transformClassesAndResourcesWithSyncLibJarsForRelease')
+        transformDex.outputs.files.files.each {
+            if(it.absolutePath.contains("/classes.jar"))
+            {
+                DefaultPublishArtifact jarFileArtifact = new DefaultPublishArtifact('', 'jar', 'jar', '', date, it, new Object[0])
+                ass.add(jarFileArtifact)
+            }
+        }
+    }
 }
 
