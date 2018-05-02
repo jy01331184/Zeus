@@ -27,7 +27,7 @@ public class ZeusManager {
     public void install(Context context, File patchFile) {
 
         try {
-            DexFile dexFile = DexFile.loadDex(patchFile.getAbsolutePath(), context.getFilesDir().getAbsolutePath(), 0);
+            DexFile dexFile = DexFile.loadDex(patchFile.getAbsolutePath(), new File(context.getFilesDir(),"patch.opt").getAbsolutePath(), 0);
             ClassLoader parent = context.getClassLoader();
             Enumeration<String> patchClasseNames = dexFile.entries();
 

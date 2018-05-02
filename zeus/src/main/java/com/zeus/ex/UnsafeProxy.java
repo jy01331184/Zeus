@@ -89,4 +89,10 @@ public class UnsafeProxy {
         }catch (Throwable e){}
     }
 
+    public static native long getAddr(Object object);
+
+    static{
+        System.loadLibrary("zeus");
+    }
+
 }

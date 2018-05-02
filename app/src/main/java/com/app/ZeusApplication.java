@@ -1,4 +1,4 @@
-package com.zeus.app;
+package com.app;
 
 import android.app.Application;
 import android.content.Context;
@@ -23,8 +23,14 @@ public class ZeusApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+
         try {
-            File patchFile = new File(getFilesDir(), "patch.apk");
+            File patchFile = new File(getFilesDir(), "zeus.patch");
+            if (patchFile.exists()) {
+                patchFile.delete();
+            }
+
+
             if (!patchFile.exists()) {
                 InputStream is = getResources().getAssets().open("patch.apk");
 
@@ -36,7 +42,7 @@ public class ZeusApplication extends Application {
                 is.close();
             }
 
-            ZeusManager.getInstance().install(this,patchFile);
+            ZeusManager.getInstance().install(this, patchFile);
 
         } catch (Exception e) {
             e.printStackTrace();

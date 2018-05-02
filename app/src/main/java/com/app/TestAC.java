@@ -1,4 +1,4 @@
-package com.zeus.app;
+package com.app;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -6,8 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
-import com.zeus.ZeusProxy;
 
 import java.lang.reflect.Method;
 
@@ -53,11 +51,8 @@ public class TestAC extends Activity {
             @Override
             public void onClick(View v) {
                 try {
-
-                    //System.out.println(test1.publicTest());
-                    ZeusProxy.instance().recover(Test1.class);
-                    //t1.setText(test1.publicTest());
-
+                    //ZeusProxy.instance().recover(Test1.class);
+                    test();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -107,5 +102,14 @@ public class TestAC extends Activity {
         });
     }
 
-
+    private void test(){
+        Test1 test11 = new Test1();
+        System.out.println(test11.publicTest());
+        System.out.println(test11.protectedTest(TestAC.this));
+        System.out.println(test11.callPrivate(TestAC.this));
+        System.out.println(test11.finalTest(TestAC.this));
+        System.out.println(Test1.publicStaticTest());
+        System.out.println(Test1.protectedStaticTest());
+        System.out.println(Test1.callPrivateStatic());
+    }
 }

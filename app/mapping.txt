@@ -1,0 +1,291 @@
+com.app.BuildConfig -> com.app.BuildConfig:
+    boolean DEBUG -> a
+    java.lang.String APPLICATION_ID -> b
+    java.lang.String BUILD_TYPE -> c
+    java.lang.String FLAVOR -> d
+    int VERSION_CODE -> e
+    java.lang.String VERSION_NAME -> f
+    void <init>() -> <init>
+com.app.ITest -> com.app.ITest:
+    java.lang.String publicTest() -> a
+com.app.R -> com.app.R:
+    void <init>() -> <init>
+com.app.R$attr -> com.app.R$attr:
+    void <init>() -> <init>
+com.app.R$color -> com.app.R$color:
+    int colorAccent -> colorAccent
+    int colorPrimary -> colorPrimary
+    int colorPrimaryDark -> colorPrimaryDark
+    void <init>() -> <init>
+com.app.R$id -> com.app.R$id:
+    int recover -> recover
+    int reflect -> reflect
+    int t1 -> t1
+    int t2 -> t2
+    int t3 -> t3
+    int t4 -> t4
+    int t5 -> t5
+    int t6 -> t6
+    int t7 -> t7
+    void <init>() -> <init>
+com.app.R$layout -> com.app.R$layout:
+    int activity_main -> activity_main
+    void <init>() -> <init>
+com.app.R$mipmap -> com.app.R$mipmap:
+    int ic_launcher -> ic_launcher
+    int ic_launcher_round -> ic_launcher_round
+    void <init>() -> <init>
+com.app.R$string -> com.app.R$string:
+    int app_name -> app_name
+    void <init>() -> <init>
+com.app.Test0 -> com.app.Test0:
+    void <init>() -> <init>
+    java.lang.String protectedTest(android.app.Activity) -> a
+    java.lang.String privateTest(android.app.Activity) -> c
+    java.lang.String publicStaticTest() -> a
+    java.lang.String protectedStaticTest() -> b
+    java.lang.String privateStaticTest() -> f
+    java.lang.String callPrivate(android.app.Activity) -> b
+    java.lang.String callPrivateStatic() -> c
+    java.lang.String innner() -> d
+    java.lang.String publicTest() -> e
+com.app.Test1 -> com.app.Test1:
+    void <init>() -> <init>
+    java.lang.String protectedTest(android.app.Activity) -> a
+    java.lang.String privateTest(android.app.Activity) -> d
+    java.lang.String publicStaticTest() -> f
+    java.lang.String protectedStaticTest() -> g
+    java.lang.String privateStaticTest() -> i
+    java.lang.String finalTest(android.app.Activity) -> c
+    java.lang.String callPrivate(android.app.Activity) -> b
+    java.lang.String callPrivateStatic() -> h
+    java.lang.String innner() -> d
+    java.lang.String publicTest() -> e
+com.app.TestAC -> com.app.TestAC:
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+    void test() -> a
+com.app.TestAC$1 -> com.app.a:
+    com.app.TestAC this$0 -> a
+    void <init>(com.app.TestAC) -> <init>
+    void onClick(android.view.View) -> onClick
+com.app.TestAC$2 -> com.app.b:
+    com.app.TestAC this$0 -> a
+    void <init>(com.app.TestAC) -> <init>
+    void onClick(android.view.View) -> onClick
+com.app.TestAC2 -> com.app.TestAC2:
+    void <init>() -> <init>
+    void onCreate(android.os.Bundle) -> onCreate
+com.app.ZeusApplication -> com.app.ZeusApplication:
+    void <init>() -> <init>
+    void onCreate() -> onCreate
+    void attachBaseContext(android.content.Context) -> attachBaseContext
+com.zeus.BuildConfig -> com.zeus.BuildConfig:
+    boolean DEBUG -> DEBUG
+    java.lang.String APPLICATION_ID -> APPLICATION_ID
+    java.lang.String BUILD_TYPE -> BUILD_TYPE
+    java.lang.String FLAVOR -> FLAVOR
+    int VERSION_CODE -> VERSION_CODE
+    java.lang.String VERSION_NAME -> VERSION_NAME
+    void <init>() -> <init>
+com.zeus.Keep -> com.zeus.Keep:
+com.zeus.Patch -> com.zeus.Patch:
+    java.lang.String value() -> value
+com.zeus.ZeusManager -> com.zeus.ZeusManager:
+    com.zeus.ZeusManager instance -> instance
+    void <init>() -> <init>
+    com.zeus.ZeusManager getInstance() -> getInstance
+    void install(android.content.Context,java.io.File) -> install
+com.zeus.ZeusProxy -> com.zeus.ZeusProxy:
+    com.zeus.core.IReflectionReplace proxy -> proxy
+    void <init>() -> <init>
+    void init() -> init
+    com.zeus.ZeusProxy instance() -> instance
+    void replace(java.lang.reflect.Method,java.lang.reflect.Method) -> replace
+    void replace(java.lang.reflect.Constructor,java.lang.reflect.Constructor) -> replace
+    void recover(java.lang.Class) -> recover
+    void checkMethod(java.lang.reflect.Method,java.lang.reflect.Method) -> checkMethod
+    void checkConstructor(java.lang.reflect.Constructor,java.lang.reflect.Constructor) -> checkConstructor
+    boolean checkClasses(java.lang.Class[],java.lang.Class[]) -> checkClasses
+    void <init>(com.zeus.ZeusProxy$1) -> <init>
+com.zeus.ZeusProxy$1 -> com.zeus.ZeusProxy$1:
+com.zeus.ZeusProxy$Holder -> com.zeus.ZeusProxy$Holder:
+    com.zeus.ZeusProxy instance -> instance
+    void <init>() -> <init>
+    void <clinit>() -> <clinit>
+com.zeus.core.Constants -> com.zeus.core.Constants:
+    int INVALID_SIZE -> INVALID_SIZE
+com.zeus.core.IMethodSize -> com.zeus.core.IMethodSize:
+    int methodSize() -> methodSize
+    int methodIndexOffset() -> methodIndexOffset
+    int declaringClassOffset() -> declaringClassOffset
+    int superClassOffset() -> superClassOffset
+com.zeus.core.IReflectionReplace -> com.zeus.core.IReflectionReplace:
+    void replace(java.lang.reflect.Method,java.lang.reflect.Method) -> replace
+    void replace(java.lang.reflect.Constructor,java.lang.reflect.Constructor) -> replace
+    void recover(java.lang.Class) -> recover
+com.zeus.core.MethodSize5_1 -> com.zeus.core.MethodSize5_1:
+    int methodSize -> methodSize
+    int methodIndexOffset -> methodIndexOffset
+    int declaringClassOffset -> declaringClassOffset
+    int superClassOffset -> superClassOffset
+    void <init>() -> <init>
+    int methodSize() -> methodSize
+    int methodIndexOffset() -> methodIndexOffset
+    int declaringClassOffset() -> declaringClassOffset
+    int superClassOffset() -> superClassOffset
+    void <clinit>() -> <clinit>
+com.zeus.core.MethodSize6_0 -> com.zeus.core.MethodSize6_0:
+    int methodSize -> methodSize
+    int methodIndexOffset -> methodIndexOffset
+    int declaringClassOffset -> declaringClassOffset
+    int superClassOffset -> superClassOffset
+    void <init>() -> <init>
+    int methodSize() -> methodSize
+    int methodIndexOffset() -> methodIndexOffset
+    int declaringClassOffset() -> declaringClassOffset
+    int superClassOffset() -> superClassOffset
+    void <clinit>() -> <clinit>
+com.zeus.core.MethodSize8_0 -> com.zeus.core.MethodSize8_0:
+    int methodSize -> methodSize
+    int methodIndexOffset -> methodIndexOffset
+    int declaringClassOffset -> declaringClassOffset
+    int superClassOffset -> superClassOffset
+    void <init>() -> <init>
+    int methodSize() -> methodSize
+    int methodIndexOffset() -> methodIndexOffset
+    int declaringClassOffset() -> declaringClassOffset
+    int superClassOffset() -> superClassOffset
+    void <clinit>() -> <clinit>
+com.zeus.core.MethodSizeUtils -> com.zeus.core.MethodSizeUtils:
+    int size -> size
+    com.zeus.core.IMethodSize methodSize -> methodSize
+    int methodIndexOffset -> methodIndexOffset
+    int declaringClassOffset -> declaringClassOffset
+    int superClassOffset -> superClassOffset
+    void <init>() -> <init>
+    int superClassOffset() -> superClassOffset
+    int methodSize() -> methodSize
+    int methodIndexOffset() -> methodIndexOffset
+    int declaringClassOffset() -> declaringClassOffset
+    void <clinit>() -> <clinit>
+com.zeus.core.ReflectionReplace5_0 -> com.zeus.core.ReflectionReplace5_0:
+    java.lang.reflect.Field artMethodField -> artMethodField
+    java.lang.reflect.Field superClassField -> superClassField
+    java.util.Map PATCHS -> PATCHS
+    java.util.Map CACHE -> CACHE
+    void <init>() -> <init>
+    void replace(java.lang.reflect.Method,java.lang.reflect.Method) -> replace
+    void replace(java.lang.reflect.Constructor,java.lang.reflect.Constructor) -> replace
+    void recover(java.lang.Class) -> recover
+    void replaceReal(java.util.Map,java.lang.Class,java.lang.Object,java.lang.Object) -> replaceReal
+    void <clinit>() -> <clinit>
+com.zeus.core.ReflectionReplace5_1 -> com.zeus.core.ReflectionReplace5_1:
+    java.lang.reflect.Field artMethodField -> artMethodField
+    java.util.Map PATCHS -> PATCHS
+    java.util.Map CACHE -> CACHE
+    void <init>() -> <init>
+    void replace(java.lang.reflect.Method,java.lang.reflect.Method) -> replace
+    void replace(java.lang.reflect.Constructor,java.lang.reflect.Constructor) -> replace
+    void recover(java.lang.Class) -> recover
+    void replaceReal(java.util.List,java.lang.Object,java.lang.Object) -> replaceReal
+    void <clinit>() -> <clinit>
+com.zeus.core.ReflectionReplace6_0 -> com.zeus.core.ReflectionReplace6_0:
+    java.lang.reflect.Field artMethodField -> artMethodField
+    java.util.Map PATCHS -> PATCHS
+    java.util.Map CACHE -> CACHE
+    void <init>() -> <init>
+    void replace(java.lang.reflect.Method,java.lang.reflect.Method) -> replace
+    void replace(java.lang.reflect.Constructor,java.lang.reflect.Constructor) -> replace
+    void recover(java.lang.Class) -> recover
+    void replaceReal(java.util.List,long,long) -> replaceReal
+    void <clinit>() -> <clinit>
+com.zeus.core.ReflectionReplace8_0 -> com.zeus.core.ReflectionReplace8_0:
+    java.lang.reflect.Field artMethodField -> artMethodField
+    java.util.Map PATCHS -> PATCHS
+    java.util.Map CACHE -> CACHE
+    void <init>() -> <init>
+    void replace(java.lang.reflect.Method,java.lang.reflect.Method) -> replace
+    void replace(java.lang.reflect.Constructor,java.lang.reflect.Constructor) -> replace
+    void recover(java.lang.Class) -> recover
+    void replaceReal(java.util.List,long,long) -> replaceReal
+    void <clinit>() -> <clinit>
+com.zeus.core.ReflectionReplaceDalvik4_0 -> com.zeus.core.ReflectionReplaceDalvik4_0:
+    int DIRECT_METHOD_OFFSET -> DIRECT_METHOD_OFFSET
+    int VIRTUAL_METHOD_OFFSET -> VIRTUAL_METHOD_OFFSET
+    int METHOD_SIZE_BYTE -> METHOD_SIZE_BYTE
+    java.lang.reflect.Field methodSlotField -> methodSlotField
+    java.lang.reflect.Field constructSlotField -> constructSlotField
+    int methodSize -> methodSize
+    int directMethodOffset -> directMethodOffset
+    int virtualMethodOffset -> virtualMethodOffset
+    int superClassOffset -> superClassOffset
+    int declaringClassOffset -> declaringClassOffset
+    java.util.Map PATCHS -> PATCHS
+    java.util.Map CACHE -> CACHE
+    void <init>() -> <init>
+    void replace(java.lang.reflect.Method,java.lang.reflect.Method) -> replace
+    void replace(java.lang.reflect.Constructor,java.lang.reflect.Constructor) -> replace
+    void recover(java.lang.Class) -> recover
+    void replaceReal(java.util.List,long,long) -> replaceReal
+    boolean isDirect(java.lang.reflect.Method) -> isDirect
+    void <clinit>() -> <clinit>
+com.zeus.ex.CPUArchUtils -> com.zeus.ex.CPUArchUtils:
+    java.lang.String CPU_ARCHITECTURE_TYPE_32 -> CPU_ARCHITECTURE_TYPE_32
+    java.lang.String CPU_ARCHITECTURE_TYPE_64 -> CPU_ARCHITECTURE_TYPE_64
+    int EI_CLASS -> EI_CLASS
+    int ELFCLASS32 -> ELFCLASS32
+    int ELFCLASS64 -> ELFCLASS64
+    java.lang.String CPU_ARCHITECTURE_KEY_64 -> CPU_ARCHITECTURE_KEY_64
+    java.lang.String SYSTEM_LIB_C_PATH -> SYSTEM_LIB_C_PATH
+    java.lang.String SYSTEM_LIB_C_PATH_64 -> SYSTEM_LIB_C_PATH_64
+    java.lang.String PROC_CPU_INFO_PATH -> PROC_CPU_INFO_PATH
+    boolean LOGENABLE -> LOGENABLE
+    void <init>() -> <init>
+    boolean checkIfCPUx86() -> checkIfCPUx86
+    boolean is64BitSystem() -> is64BitSystem
+    java.lang.String getArchType() -> getArchType
+    java.lang.String getSystemProperty(java.lang.String,java.lang.String) -> getSystemProperty
+    boolean isCPUInfo64() -> isCPUInfo64
+    boolean isLibc64() -> isLibc64
+    byte[] readELFHeadrIndentArray(java.io.File) -> readELFHeadrIndentArray
+    void <clinit>() -> <clinit>
+com.zeus.ex.MethodSizeCase -> com.zeus.ex.MethodSizeCase:
+    int field1 -> field1
+    int field2 -> field2
+    int field3 -> field3
+    int field4 -> field4
+    void <init>() -> <init>
+    void method1() -> method1
+    void method2() -> method2
+    void method3() -> method3
+    void method4() -> method4
+    void zVirtualMethod1() -> zVirtualMethod1
+    void zVirtualMethod2() -> zVirtualMethod2
+com.zeus.ex.ReflectionUtils -> com.zeus.ex.ReflectionUtils:
+    void <init>() -> <init>
+    boolean isMethodEqual(java.lang.reflect.Method,java.lang.reflect.Method) -> isMethodEqual
+    boolean isFieldEqual(java.lang.reflect.Field,java.lang.reflect.Field) -> isFieldEqual
+    boolean isConstructorEqual(java.lang.reflect.Constructor,java.lang.reflect.Constructor) -> isConstructorEqual
+    boolean checkClasses(java.lang.Class[],java.lang.Class[]) -> checkClasses
+    java.lang.String getKey(java.lang.Object) -> getKey
+com.zeus.ex.SizeUtils -> com.zeus.ex.SizeUtils:
+    void <init>() -> <init>
+    int size(long,long,long,long) -> size
+com.zeus.ex.UnsafeProxy -> com.zeus.ex.UnsafeProxy:
+    java.lang.Class unsafeClass -> unsafeClass
+    java.lang.Object unsafe -> unsafe
+    java.lang.reflect.Method getIntVolatileMethod -> getIntVolatileMethod
+    java.lang.reflect.Method putIntVolatileMethod -> putIntVolatileMethod
+    java.lang.reflect.Method arrayBaseOffsetMethod -> arrayBaseOffsetMethod
+    java.lang.reflect.Method objectFieldOffsetMethod -> objectFieldOffsetMethod
+    void <init>() -> <init>
+    int getIntVolatile(java.lang.Object,long) -> getIntVolatile
+    void putIntVolatile(java.lang.Object,long,int) -> putIntVolatile
+    int getIntVolatile(long) -> getIntVolatile
+    void putIntVolatile(long,int) -> putIntVolatile
+    long getObjectAddress(java.lang.Object) -> getObjectAddress
+    long objectFieldOffset(java.lang.reflect.Field) -> objectFieldOffset
+    void ensureClassInitialized(java.lang.Class) -> ensureClassInitialized
+    long getAddr(java.lang.Object) -> getAddr
+    void <clinit>() -> <clinit>

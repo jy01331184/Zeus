@@ -19,13 +19,28 @@ android {
 
 
     }
-
+    signingConfigs {
+        medusaCfg {
+            storeFile file("../medusa.keystore")
+            storePassword "3666161"
+            keyAlias "medusa.keystore"
+            keyPassword "3666161"
+        }
+    }
     buildTypes {
         patch {
+            signingConfig signingConfigs.medusaCfg
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro','patch-rules.pro'
+        }
+        release {
+            debuggable false
+            signingConfig signingConfigs.medusaCfg
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        release {
+        debug{
+            signingConfig signingConfigs.medusaCfg
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

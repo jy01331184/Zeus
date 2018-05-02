@@ -1,4 +1,4 @@
-package com.zeus.app;
+package com.app;
 
 import android.app.Activity;
 

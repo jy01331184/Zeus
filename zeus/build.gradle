@@ -28,12 +28,20 @@ android {
 
     buildTypes {
         debug {
-
+            ndk {
+                moduleName "zeus"
+                ldLibs "log", "z", "m", "jnigraphics"
+//                cFlags "-std=gnu11"
+                abiFilters "armeabi","armeabi-v7a","x86"
+            }
         }
         release {
-
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ndk {
+                moduleName "zeus"
+                ldLibs "log", "z", "m", "jnigraphics"
+//                cFlags "-std=gnu11"
+                abiFilters "armeabi","armeabi-v7a","x86"
+            }
         }
     }
 

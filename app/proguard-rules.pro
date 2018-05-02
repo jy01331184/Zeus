@@ -1,5 +1,6 @@
 -dontshrink
--optimizationpasses 5
+-dontoptimize
+-optimizationpasses 1
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
 -dontpreverify
@@ -34,7 +35,7 @@
 -keepattributes *Annotation*
 -keepattributes Signature
 
-
+-keep @com.zeus.Keep class * {*;}
 
 
 

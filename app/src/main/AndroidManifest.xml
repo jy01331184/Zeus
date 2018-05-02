@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zeus.app">
+<manifest package="com.app"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:name=".ZeusApplication"
+        android:name="com.app.ZeusApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-         >
-        <activity android:name="com.zeus.app.TestAC">
+        >
+        <activity android:name="com.app.TestAC">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".TestAC2"></activity>
     </application>
 
 </manifest>
