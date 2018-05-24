@@ -1,4 +1,4 @@
-package com.zeus.core;
+package com.zeus.core.fix;
 
 
 import com.zeus.ex.ReflectionUtils;
@@ -18,15 +18,15 @@ import java.util.Set;
  * Method.java  ->  ArtMethod.java  有  entryPointFromInterpreter 与 entryPointFromQuickCompiledCode
  */
 
-public class ReflectionReplace5_0 implements IReflectionReplace {
+public class ZeusCompatFix5_0 implements IZeusCompatFix {
 
-    static Field artMethodField;
-    static Field superClassField;
+    private Field artMethodField;
+    private Field superClassField;
 
-    static Map<Class, Set<Object>> PATCHS = new HashMap<>();
-    static Map<String, Map<String, Object>> CACHE = new HashMap<>();
+    private Map<Class, Set<Object>> PATCHS = new HashMap<>();
+    private Map<String, Map<String, Object>> CACHE = new HashMap<>();
 
-    static {
+    public ZeusCompatFix5_0() {
         try {
             Class absMethodClass = Class.forName("java.lang.reflect.AbstractMethod");
             artMethodField = absMethodClass.getDeclaredField("artMethod");
@@ -40,6 +40,7 @@ public class ReflectionReplace5_0 implements IReflectionReplace {
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void replace(Method src, Method dest) throws Exception {

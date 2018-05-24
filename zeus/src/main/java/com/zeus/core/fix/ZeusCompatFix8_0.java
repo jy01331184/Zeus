@@ -1,5 +1,7 @@
-package com.zeus.core;
+package com.zeus.core.fix;
 
+import com.zeus.core.size.IZeusMethodStruct;
+import com.zeus.core.size.ZeusMethodStruct8_0;
 import com.zeus.ex.ReflectionUtils;
 import com.zeus.ex.UnsafeProxy;
 
@@ -17,17 +19,18 @@ import java.util.Set;
  * Created by magic.yang on 17/5/15.
  */
 
-public class ReflectionReplace6_0 implements IReflectionReplace {
+public class ZeusCompatFix8_0 implements IZeusCompatFix {
 
-    static Field artMethodField;
+    private Field artMethodField;
 
-    static Map<Class, Set<Object>> PATCHS = new HashMap<>();
-    static Map<String, List<Long>> CACHE = new HashMap<>();
+    private Map<Class, Set<Object>> PATCHS = new HashMap<>();
+    private Map<String, List<Long>> CACHE = new HashMap<>();
+    private IZeusMethodStruct methodStruct = new ZeusMethodStruct8_0();
 
 
-    static {
+    public ZeusCompatFix8_0() {
         try {
-            Class absMethodClass = Class.forName("java.lang.reflect.AbstractMethod");
+            Class absMethodClass = Class.forName("java.lang.reflect.Executable");
             artMethodField = absMethodClass.getDeclaredField("artMethod");
             artMethodField.setAccessible(true);
         } catch (Exception e) {
@@ -56,7 +59,7 @@ public class ReflectionReplace6_0 implements IReflectionReplace {
             cache = new ArrayList<>();
             CACHE.put(key, cache);
         }
-        replaceReal(cache,artMethodSrc, artMethodDest);
+        replaceReal(cache, artMethodSrc, artMethodDest);
     }
 
     @Override
@@ -76,7 +79,7 @@ public class ReflectionReplace6_0 implements IReflectionReplace {
             CACHE.put(key, cache);
         }
 
-        replaceReal(cache,artMethodSrc, artMethodDest);
+        replaceReal(cache, artMethodSrc, artMethodDest);
     }
 
     @Override
@@ -89,9 +92,9 @@ public class ReflectionReplace6_0 implements IReflectionReplace {
                 if (cache != null) {
                     long src = cache.remove(0);
 
-                    int methodSize = MethodSizeUtils.methodSize();
-                    int methodIndexOffsetIndex = MethodSizeUtils.methodIndexOffset() / 4;
-                    int declaringClassOffsetIndex = MethodSizeUtils.declaringClassOffset() / 4;
+                    int methodSize = methodStruct.methodSize();
+                    int methodIndexOffsetIndex = methodStruct.methodIndexOffset() / 4;
+                    int declaringClassOffsetIndex = methodStruct.declaringClassOffset() / 4;
                     // index 0 is declaring_class, declaring_class need not replace.
                     for (int i = 0, size = methodSize / 4; i < size; i++) {
                         if (i != methodIndexOffsetIndex) {
@@ -99,26 +102,26 @@ public class ReflectionReplace6_0 implements IReflectionReplace {
                             UnsafeProxy.putIntVolatile(src + i * 4, value);
                         }
                     }
-                    System.out.println("recover:"+key);
+                    System.out.println("recover:" + key);
                 } else {
-                    System.err.println("no recover for key:"+key);
+                    System.err.println("no recover for key:" + key);
                 }
+
             }
         }
     }
 
     protected void replaceReal(List<Long> cache, long src, long dest) throws Exception {
-        int methodSize = MethodSizeUtils.methodSize();
-        int methodIndexOffsetIndex = MethodSizeUtils.methodIndexOffset() / 4;
-        int declaringClassOffsetIndex = MethodSizeUtils.declaringClassOffset() / 4;
-        int superClassOffset = MethodSizeUtils.superClassOffset() / 4;
+        int methodSize = methodStruct.methodSize();
+        int methodIndexOffsetIndex = methodStruct.methodIndexOffset() / 4;
+        int declaringClassOffsetIndex = methodStruct.declaringClassOffset() / 4;
+        int superClassOffset = methodStruct.superClassOffset() / 4;
 
         cache.add(src);
         // index 0 is declaring_class, declaring_class need not replace.
         for (int i = 0, size = methodSize / 4; i < size; i++) {
-            if (i != methodIndexOffsetIndex ) {
-
-                if (i == declaringClassOffsetIndex && superClassOffset != Constants.INVALID_SIZE) {
+            if (i != methodIndexOffsetIndex) {
+                if (i == declaringClassOffsetIndex) {
                     int destClsAddr = UnsafeProxy.getIntVolatile(dest + i * 4);
                     UnsafeProxy.putIntVolatile(destClsAddr + superClassOffset * 4, 0);  //update super_class_ in class.h
                 }

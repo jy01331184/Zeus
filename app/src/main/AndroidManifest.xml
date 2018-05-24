@@ -15,7 +15,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".TestAC2"></activity>
     </application>
 
 </manifest>

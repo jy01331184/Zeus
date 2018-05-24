@@ -46,7 +46,6 @@ public class TestAC extends Activity {
         final TextView t1 = (TextView) findViewById(R.id.t1);
         t1.setText(test1.publicTest());
 
-
         findViewById(R.id.recover).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

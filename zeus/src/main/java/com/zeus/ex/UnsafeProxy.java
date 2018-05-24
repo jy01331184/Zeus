@@ -84,14 +84,12 @@ public class UnsafeProxy {
     }
 
     public static void ensureClassInitialized(Class clazz) throws Exception {
-        try {
-            Class.forName(clazz.getName(), true, clazz.getClassLoader());
-        }catch (Throwable e){}
+        Class.forName(clazz.getName(), true, clazz.getClassLoader());
     }
 
     public static native long getAddr(Object object);
 
-    static{
+    static {
         System.loadLibrary("zeus");
     }
 

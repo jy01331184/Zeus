@@ -1,7 +1,5 @@
 package com.zeus.ex;
 
-import com.zeus.core.Constants;
-
 import java.util.Arrays;
 
 /**
@@ -24,7 +22,7 @@ public class SizeUtils {
         long temp2 = arr[3] - arr[2];
 
         if(temp1 != temp2){
-            return Constants.INVALID_SIZE;
+            return 0;
         }
 
         return (int) temp1;

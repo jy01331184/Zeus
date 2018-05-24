@@ -1,10 +1,10 @@
-package com.zeus.core;
+package com.zeus.core.size;
 
 /**
  * Created by magic.yang on 17/5/16.
  */
 
-public interface IMethodSize {
+public interface IZeusMethodStruct {
 
     int methodSize() throws Exception;
 

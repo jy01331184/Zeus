@@ -1,8 +1,9 @@
-package com.zeus.core;
+package com.zeus.core.size;
 
+import com.zeus.ex.MethodSizeCase;
 import com.zeus.ex.SizeUtils;
 import com.zeus.ex.UnsafeProxy;
-import com.zeus.ex.MethodSizeCase;
+import com.zeus.ex.ZeusException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -11,17 +12,16 @@ import java.lang.reflect.Method;
  * Created by magic.yang on 17/5/16.
  */
 
-public class MethodSize6_0 implements IMethodSize {
+public class ZeusMethodStruct8_0 implements IZeusMethodStruct {
 
-    private static int methodSize = Constants.INVALID_SIZE;
-    private static int methodIndexOffset = Constants.INVALID_SIZE;
-    private static int declaringClassOffset = Constants.INVALID_SIZE;
-    private static int superClassOffset = Constants.INVALID_SIZE;
+    private int methodSize;
+    private int methodIndexOffset;
+    private int declaringClassOffset;
+    private int superClassOffset;
 
-
-    static {
+    public ZeusMethodStruct8_0() {
         try {
-            Class absMethodClass = Class.forName("java.lang.reflect.AbstractMethod");
+            Class absMethodClass = Class.forName("java.lang.reflect.Executable");
             Field artMethodField = absMethodClass.getDeclaredField("artMethod");
             artMethodField.setAccessible(true);
 
@@ -36,7 +36,7 @@ public class MethodSize6_0 implements IMethodSize {
             long method3Addr = ((Long) artMethodField.get(method3)).longValue();
             long method4Addr = ((Long) artMethodField.get(method4)).longValue();
 
-            methodSize = SizeUtils.size(method1Addr, method2Addr,method3Addr,method4Addr);
+            methodSize = SizeUtils.size(method1Addr, method2Addr, method3Addr, method4Addr);
 
             int constructNumber = MethodSizeCase.class.getDeclaredConstructors().length;
 
@@ -69,14 +69,14 @@ public class MethodSize6_0 implements IMethodSize {
             long objectClassAddr = UnsafeProxy.getObjectAddress(Object.class);
 
             for (int i = 0; i < 20; i++) {
-                int val = UnsafeProxy.getIntVolatile(classAddr+i*4);
-                if(val == objectClassAddr){
+                int val = UnsafeProxy.getIntVolatile(classAddr + i * 4);
+                if (val == objectClassAddr) {
                     superClassOffset = i * 4;
                     break;
                 }
             }
 
-            System.out.println("MethodSize6_0:init declaringClassOffset:"+declaringClassOffset+","+"methodIndexOffset:"+methodIndexOffset+","+"superClassOffset:"+superClassOffset);
+            System.out.println("ZeusMethodStruct8_0:init methodSize:" + methodSize + " declaringClassOffset:" + declaringClassOffset + "," + "methodIndexOffset:" + methodIndexOffset + "," + "superClassOffset:" + superClassOffset);
 
 
         } catch (Exception e) {
@@ -86,6 +86,9 @@ public class MethodSize6_0 implements IMethodSize {
 
     @Override
     public int methodSize() throws Exception {
+        if (methodSize <= 0) {
+            throw new ZeusException("ZeusMethodStruct8_0 methodSize not correct:" + methodSize);
+        }
         return methodSize;
     }
 

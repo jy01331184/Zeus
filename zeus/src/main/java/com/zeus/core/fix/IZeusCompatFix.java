@@ -1,4 +1,4 @@
-package com.zeus.core;
+package com.zeus.core.fix;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
  * Created by magic.yang on 17/5/15.
  */
 
-public interface IReflectionReplace {
+public interface IZeusCompatFix {
 
     void replace(Method src, Method dest) throws Exception;
 

@@ -1,7 +1,6 @@
 package com.zeus.ex;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
@@ -10,67 +9,44 @@ import java.lang.reflect.Modifier;
  */
 
 public class ReflectionUtils {
+    public static String getKey(Object object) {
+        return "zeus:" + System.identityHashCode(object);
+    }
 
-    public static boolean isMethodEqual(Method src, Method dest) {
-        if (src == null || dest == null) {
+
+    public static void checkMethod(Method src, Method dest) throws ZeusException {
+        if (src == null || dest == null)
             throw new IllegalArgumentException();
-        }
-
-        if (!src.getName().equals(dest.getName())) {
-            return false;
-        }
-
         if (src.getReturnType() != dest.getReturnType()) {
-            return false;
+            throw new ZeusException("method return type not equals!");
         }
 
         if (!checkClasses(src.getExceptionTypes(), dest.getExceptionTypes())) {
-            return false;
+            throw new ZeusException("method exceptions not equals! " + src + " && " + dest);
         }
 
         if (!checkClasses(src.getParameterTypes(), dest.getParameterTypes())) {
-            return false;
+            throw new ZeusException("method parameters not equals!" + src + " && " + dest);
         }
 
         if (!Modifier.isStatic(src.getModifiers()) == Modifier.isStatic(dest.getModifiers())) {
-            return false;
+            throw new ZeusException("method modifiers not equals!" + src + " && " + dest);
         }
-        return true;
+
     }
 
-    public static boolean isFieldEqual(Field src, Field dest) {
-        if (src == null || dest == null) {
+    public static void checkConstructor(Constructor src, Constructor dest) throws ZeusException {
+        if (src == null || dest == null)
             throw new IllegalArgumentException();
-        }
-
-        if (!src.getName().equals(dest.getName())) {
-            return false;
-        }
-
-        if (src.getType() != dest.getType()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static boolean isConstructorEqual(Constructor src, Constructor dest) {
-        if (src == null || dest == null) {
-            throw new IllegalArgumentException();
-        }
-
-        if (!src.getName().equals(dest.getName())) {
-            return false;
-        }
 
         if (!checkClasses(src.getExceptionTypes(), dest.getExceptionTypes())) {
-            return false;
+            throw new ZeusException("constructor exceptions not equals! " + src + " && " + dest);
         }
 
         if (!checkClasses(src.getParameterTypes(), dest.getParameterTypes())) {
-            return false;
+            throw new ZeusException("constructor parameters not equals!" + src + " && " + dest);
         }
-        return true;
+
     }
 
     private static boolean checkClasses(Class[] srcClasses, Class[] destClasses) {
@@ -90,9 +66,5 @@ public class ReflectionUtils {
             }
         }
         return true;
-    }
-
-    public static String getKey(Object object){
-        return "zeus:"+System.identityHashCode(object);
     }
 }

@@ -32,7 +32,7 @@ android {
                 moduleName "zeus"
                 ldLibs "log", "z", "m", "jnigraphics"
 //                cFlags "-std=gnu11"
-                abiFilters "armeabi","armeabi-v7a","x86"
+                abiFilters "armeabi","x86"
             }
         }
         release {
@@ -40,7 +40,7 @@ android {
                 moduleName "zeus"
                 ldLibs "log", "z", "m", "jnigraphics"
 //                cFlags "-std=gnu11"
-                abiFilters "armeabi","armeabi-v7a","x86"
+                abiFilters "armeabi","x86"
             }
         }
     }

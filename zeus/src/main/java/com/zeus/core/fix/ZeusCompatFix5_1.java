@@ -1,5 +1,7 @@
-package com.zeus.core;
+package com.zeus.core.fix;
 
+import com.zeus.core.size.IZeusMethodStruct;
+import com.zeus.core.size.ZeusMethodStruct5_1;
 import com.zeus.ex.ReflectionUtils;
 import com.zeus.ex.UnsafeProxy;
 
@@ -15,19 +17,21 @@ import java.util.Set;
 
 /**
  * Created by magic.yang on 17/5/15.
+ * cover 5.1
+ * Method.java  ->  ArtMethod.java  没有  entryPointFromInterpreter 与 entryPointFromQuickCompiledCode
+ * 参照6.0+ patch
  */
 
-public class ReflectionReplace8_0 implements IReflectionReplace {
+public class ZeusCompatFix5_1 implements IZeusCompatFix {
 
-    static Field artMethodField;
+    private Field artMethodField;
+    private Map<Class, Set<Object>> PATCHS = new HashMap<>();
+    private Map<String, List<Object>> CACHE = new HashMap<>();
+    private IZeusMethodStruct methodStruct = new ZeusMethodStruct5_1();
 
-    static Map<Class, Set<Object>> PATCHS = new HashMap<>();
-    static Map<String, List<Long>> CACHE = new HashMap<>();
-
-
-    static {
+    public ZeusCompatFix5_1() {
         try {
-            Class absMethodClass = Class.forName("java.lang.reflect.Executable");
+            Class absMethodClass = Class.forName("java.lang.reflect.AbstractMethod");
             artMethodField = absMethodClass.getDeclaredField("artMethod");
             artMethodField.setAccessible(true);
         } catch (Exception e) {
@@ -41,8 +45,8 @@ public class ReflectionReplace8_0 implements IReflectionReplace {
         UnsafeProxy.ensureClassInitialized(src.getDeclaringClass());
         UnsafeProxy.ensureClassInitialized(dest.getDeclaringClass());
 
-        long artMethodSrc = ((Long) artMethodField.get(src)).longValue();
-        long artMethodDest = ((Long) artMethodField.get(dest)).longValue();
+        Object o1 = artMethodField.get(src);
+        Object o2 = artMethodField.get(dest);
 
         String key = ReflectionUtils.getKey(src);
         Set<Object> patchs = PATCHS.get(src.getDeclaringClass());
@@ -51,18 +55,19 @@ public class ReflectionReplace8_0 implements IReflectionReplace {
             PATCHS.put(src.getDeclaringClass(), patchs);
         }
         patchs.add(src);
-        List<Long> cache = CACHE.get(key);
+        List<Object> cache = CACHE.get(key);
         if (cache == null) {
             cache = new ArrayList<>();
             CACHE.put(key, cache);
         }
-        replaceReal(cache, artMethodSrc, artMethodDest);
+
+        replaceReal(cache, o1, o2);
     }
 
     @Override
     public void replace(Constructor src, Constructor dest) throws Exception {
-        long artMethodSrc = ((Long) artMethodField.get(src)).longValue();
-        long artMethodDest = ((Long) artMethodField.get(dest)).longValue();
+        Object o1 = artMethodField.get(src);
+        Object o2 = artMethodField.get(dest);
         String key = ReflectionUtils.getKey(src);
         Set<Object> patchs = PATCHS.get(src.getDeclaringClass());
         if (patchs == null) {
@@ -70,13 +75,12 @@ public class ReflectionReplace8_0 implements IReflectionReplace {
             PATCHS.put(src.getDeclaringClass(), patchs);
         }
         patchs.add(src);
-        List<Long> cache = CACHE.get(key);
+        List<Object> cache = CACHE.get(key);
         if (cache == null) {
             cache = new ArrayList<>();
             CACHE.put(key, cache);
         }
-
-        replaceReal(cache, artMethodSrc, artMethodDest);
+        replaceReal(cache, o1, o2);
     }
 
     @Override
@@ -85,50 +89,50 @@ public class ReflectionReplace8_0 implements IReflectionReplace {
         if (patchs != null) {
             for (Object patch : patchs) {
                 String key = ReflectionUtils.getKey(patch);
-                List<Long> cache = CACHE.remove(key);
+                List<Object> cache = CACHE.remove(key);
                 if (cache != null) {
-                    long src = cache.remove(0);
+                    Object src = cache.remove(0);
 
-                    int methodSize = MethodSizeUtils.methodSize();
-                    int methodIndexOffsetIndex = MethodSizeUtils.methodIndexOffset() / 4;
-                    int declaringClassOffsetIndex = MethodSizeUtils.declaringClassOffset() / 4;
+                    int methodSize = methodStruct.methodSize();
+                    int methodIndexOffsetIndex = methodStruct.methodIndexOffset() / 4;
+                    int declaringClassOffsetIndex = methodStruct.declaringClassOffset() / 4;
                     // index 0 is declaring_class, declaring_class need not replace.
                     for (int i = 0, size = methodSize / 4; i < size; i++) {
                         if (i != methodIndexOffsetIndex) {
-                            int value = cache.remove(0).intValue();
-                            UnsafeProxy.putIntVolatile(src + i * 4, value);
+                            int value = (int) cache.remove(0);
+                            UnsafeProxy.putIntVolatile(src, i * 4, value);
                         }
                     }
                     System.out.println("recover:" + key);
                 } else {
                     System.err.println("no recover for key:" + key);
                 }
-
             }
         }
     }
 
-    protected void replaceReal(List<Long> cache, long src, long dest) throws Exception {
-        int methodSize = MethodSizeUtils.methodSize();
-        int methodIndexOffsetIndex = MethodSizeUtils.methodIndexOffset() / 4;
-        int declaringClassOffsetIndex = MethodSizeUtils.declaringClassOffset() / 4;
-        int superClassOffset = MethodSizeUtils.superClassOffset() / 4;
+    protected void replaceReal(List<Object> cache, Object src, Object dest) throws Exception {
+        int methodSize = methodStruct.methodSize();
+        //methodIndex need not replace,becase the process of finding method in vtable
+        int methodIndexOffsetIndex = methodStruct.methodIndexOffset() / 4;
+        int declaringClassOffsetIndex = methodStruct.declaringClassOffset() / 4;
+        int superClassOffset = methodStruct.superClassOffset() / 4;
 
         cache.add(src);
-        // index 0 is declaring_class, declaring_class need not replace.
+        //why 1? index 0 is declaring_class, declaring_class need not replace.
         for (int i = 0, size = methodSize / 4; i < size; i++) {
             if (i != methodIndexOffsetIndex) {
-                if (i == declaringClassOffsetIndex && superClassOffset != Constants.INVALID_SIZE) {
-                    int destClsAddr = UnsafeProxy.getIntVolatile(dest + i * 4);
+                if (i == declaringClassOffsetIndex) {
+                    int destClsAddr = UnsafeProxy.getIntVolatile(dest, i * 4);
                     UnsafeProxy.putIntVolatile(destClsAddr + superClassOffset * 4, 0);  //update super_class_ in class.h
                 }
-
-                int value = UnsafeProxy.getIntVolatile(dest + i * 4);
-                int origin = UnsafeProxy.getIntVolatile(src + i * 4);
-                cache.add((long) origin);
-                UnsafeProxy.putIntVolatile(src + i * 4, value);
+                int value = UnsafeProxy.getIntVolatile(dest, i * 4);
+                int origin = UnsafeProxy.getIntVolatile(src, i * 4);
+                cache.add(origin);
+                UnsafeProxy.putIntVolatile(src, i * 4, value);
             }
         }
     }
+
 
 }

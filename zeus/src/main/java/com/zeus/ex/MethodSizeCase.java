@@ -5,10 +5,6 @@ package com.zeus.ex;
  */
 public final class MethodSizeCase {
 
-    private int field1;
-    private int field2;
-    private int field3;
-    private int field4;
 
     private MethodSizeCase() {
 
@@ -26,7 +22,9 @@ public final class MethodSizeCase {
     private void method4() {
     }
 
-    public void zVirtualMethod1(){}
+    public void zVirtualMethod1() {
+    }
 
-    public void zVirtualMethod2(){}
+    public void zVirtualMethod2() {
+    }
 }

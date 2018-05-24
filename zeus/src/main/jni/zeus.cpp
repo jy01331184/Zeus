@@ -6,8 +6,10 @@
 JNIEXPORT jlong JNICALL Java_com_zeus_ex_UnsafeProxy_getAddr(JNIEnv *env, jclass cls, jobject method){
     jmethodID mid = env->FromReflectedMethod(method);
 
-    LOGD("addr %p",mid);
-    long * addr = (long *) mid;
-    long value = *addr;
+
+    int * addr = (int *) mid;
+    int value = *addr;
+    LOGD("addr %p %p %d",mid,addr,value);
+
     return value;
 }

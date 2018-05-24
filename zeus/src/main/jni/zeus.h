@@ -14,6 +14,7 @@ extern "C" {
 #ifndef JANDFIX_MASTER_ZEUS_H
 #define JANDFIX_MASTER_ZEUS_H
 JNIEXPORT jlong JNICALL Java_com_zeus_ex_UnsafeProxy_getAddr(JNIEnv *, jclass, jobject);
+
 #endif //JANDFIX_MASTER_ZEUS_H
 
 #ifdef __cplusplus
