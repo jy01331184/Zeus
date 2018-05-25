@@ -13,3 +13,5 @@
 - [x] a gradle plugin is provided for generating a patch only one step
 - [x] high available for all the native method struct is measured dynamically
 
+#### more imformation on [wiki](https://github.com/jy01331184/Zeus/wiki) 
+
