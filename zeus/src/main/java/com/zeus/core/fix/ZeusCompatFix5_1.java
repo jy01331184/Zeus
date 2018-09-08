@@ -16,10 +16,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by magic.yang on 17/5/15.
+ * Created by magic.yang .
  * cover 5.1
- * Method.java  ->  ArtMethod.java  没有  entryPointFromInterpreter 与 entryPointFromQuickCompiledCode
- * 参照6.0+ patch
+ * AbstractMethod.java  ->  ArtMethod.java  没有  entryPointFromInterpreter 与 entryPointFromQuickCompiledCode
+ * http://androidxref.com/5.1.0_r1/xref/libcore/libart/src/main/java/java/lang/reflect/AbstractMethod.java
+ * http://androidxref.com/5.1.0_r1/xref/libcore/libart/src/main/java/java/lang/reflect/ArtMethod.java
+ * http://androidxref.com/5.1.0_r1/xref/art/runtime/mirror/art_method.h
  */
 
 public class ZeusCompatFix5_1 implements IZeusCompatFix {

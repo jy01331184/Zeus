@@ -8,15 +8,10 @@ import com.zeus.ex.ZeusException;
  * Created by tianyang on 18/5/24.
  */
 public class ZeusMethodStructDalvik4_0 implements IZeusMethodStruct {
-
-    private final static int DIRECT_METHOD_OFFSET = 25;
-    private final static int VIRTUAL_METHOD_OFFSET = 27;
-    private final static int METHOD_SIZE_BYTE = 56;
-
-
-    private int methodSize = METHOD_SIZE_BYTE;
-    private int directMethodOffset = DIRECT_METHOD_OFFSET;
-    private int virtualMethodOffset = VIRTUAL_METHOD_OFFSET;
+    
+    private int methodSize = 0;
+    private int directMethodOffset = 0;
+    private int virtualMethodOffset = 0;
     private int superClassOffset;
     private int declaringClassOffset;
 
@@ -24,9 +19,18 @@ public class ZeusMethodStructDalvik4_0 implements IZeusMethodStruct {
     public ZeusMethodStructDalvik4_0() {
 
         try {
-
-            int directMethodAddr = UnsafeProxy.getIntVolatile(MethodSizeCase.class, DIRECT_METHOD_OFFSET * 4);
             int declaringClassAddr = (int) UnsafeProxy.getObjectAddress(MethodSizeCase.class);
+
+            for (int i = 0; i <= 100; i++) {
+                int val = UnsafeProxy.getIntVolatile(declaringClassAddr + i * 4);
+                if (val == 5) {
+                    directMethodOffset = i + 1;
+                } else if (val == 2) {
+                    virtualMethodOffset = i + 1;
+                }
+            }
+            int directMethodAddr = UnsafeProxy.getIntVolatile(MethodSizeCase.class, directMethodOffset * 4);
+
             int count = 0;
             int elementCount = 0;
             //通过扫面内存来确认Method的结构体大小
@@ -52,15 +56,6 @@ public class ZeusMethodStructDalvik4_0 implements IZeusMethodStruct {
                 if (val == objectClassAddr) {
                     superClassOffset = i * 4;
                     break;
-                }
-            }
-
-            for (int i = DIRECT_METHOD_OFFSET - 10; i <= VIRTUAL_METHOD_OFFSET + 10; i++) {
-                int val = UnsafeProxy.getIntVolatile(declaringClassAddr + i * 4);
-                if (val == 5) {
-                    directMethodOffset = i + 1;
-                } else if (val == 2) {
-                    virtualMethodOffset = i + 1;
                 }
             }
 

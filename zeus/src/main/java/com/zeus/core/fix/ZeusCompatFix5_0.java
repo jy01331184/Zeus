@@ -13,9 +13,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by magic.yang on 17/5/15.
+ * Created by magic.yang .
  * cover from 4.4-art  to 5.0
  * Method.java  ->  ArtMethod.java  有  entryPointFromInterpreter 与 entryPointFromQuickCompiledCode
+ * http://androidxref.com/5.0.0_r2/xref/libcore/libart/src/main/java/java/lang/reflect/ArtMethod.java
+ * http://androidxref.com/5.0.0_r2/xref/art/runtime/mirror/art_method.h
  */
 
 public class ZeusCompatFix5_0 implements IZeusCompatFix {
