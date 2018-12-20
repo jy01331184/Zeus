@@ -32,7 +32,7 @@ public class ZeusApplication extends Application {
 
 
             if (!patchFile.exists()) {
-                InputStream is = getResources().getAssets().open("patch.apk");
+                InputStream is = getResources().getAssets().open("app-patch.apk");
 
                 byte[] bs = new byte[is.available()];
                 is.read(bs);

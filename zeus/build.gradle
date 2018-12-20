@@ -27,21 +27,8 @@ android {
     }
 
     buildTypes {
-        debug {
-            ndk {
-                moduleName "zeus"
-                ldLibs "log", "z", "m", "jnigraphics"
-//                cFlags "-std=gnu11"
-                abiFilters "armeabi","x86"
-            }
-        }
-        release {
-            ndk {
-                moduleName "zeus"
-                ldLibs "log", "z", "m", "jnigraphics"
-//                cFlags "-std=gnu11"
-                abiFilters "armeabi","x86"
-            }
+        patch{
+            initWith(debug)
         }
     }
 

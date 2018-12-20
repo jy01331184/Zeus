@@ -32,6 +32,10 @@
     *;
 }
 
+-keep class com.app.**{
+    *;
+}
+
 -keepattributes *Annotation*
 -keepattributes Signature
 

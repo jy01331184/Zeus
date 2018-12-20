@@ -18,6 +18,7 @@ import java.util.Set;
 /**
  * Created by magic.yang on 17/5/15.
  * cover 4.x
+ * http://androidxref.com/4.4.4_r1/xref/dalvik/vm/oo/Object.h
  */
 
 public class ZeusCompatFixDalvik4_0 implements IZeusCompatFix {

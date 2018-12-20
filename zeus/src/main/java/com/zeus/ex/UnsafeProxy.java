@@ -87,10 +87,4 @@ public class UnsafeProxy {
         Class.forName(clazz.getName(), true, clazz.getClassLoader());
     }
 
-    public static native long getAddr(Object object);
-
-    static {
-        System.loadLibrary("zeus");
-    }
-
 }

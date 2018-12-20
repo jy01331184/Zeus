@@ -2,22 +2,24 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.zeus'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "19.1.0"
-
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     lintOptions {
         abortOnError false
     }
-
     defaultConfig {
         applicationId 'com.zeus.app'
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 23
-
         versionCode 1
         versionName "1.0"
-
-
+        externalNativeBuild {
+            cmake {
+                abiFilters "armeabi","armeabi-v7a","x86"
+                cppFlags "-std=c++11 -fexceptions -frtti"
+                arguments "-DANDROID_STL=stlport_shared"
+            }
+        }
     }
     signingConfigs {
         medusaCfg {
@@ -27,12 +29,8 @@ android {
             keyPassword "3666161"
         }
     }
+
     buildTypes {
-        patch {
-            signingConfig signingConfigs.medusaCfg
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro','patch-rules.pro'
-        }
         release {
             debuggable false
             signingConfig signingConfigs.medusaCfg
@@ -44,14 +42,27 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        patch {
+            initWith(release)
+            signingConfig signingConfigs.medusaCfg
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
-
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':zeus')
+}
 
-
-    compile project(':zeus')
+afterEvaluate {
+//    ProGuardTransform transform = transformClassesWithDexForPatch.transform.secondaryFileOutputs
+    println("====>"+transformClassesAndResourcesWithProguardForPatch.outputs.files.files)
 
 }
